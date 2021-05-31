@@ -13,3 +13,8 @@ Route::get('/series/criar', [
     SeriesController::class,
     'create'
 ]);
+
+Route::post('/series/criar', [
+    SeriesController::class,
+    'store'
+]);
