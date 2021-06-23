@@ -25,8 +25,6 @@ class SeriesController extends Controller
 
     public function store(SeriesFormRequest $request)
     {
-
-
         $serie = Serie::create($request->all());
 
         $request->session()->flash('mensagem', "Série ID: {$serie->id} Nome: {$serie->nome} foi criada com sucesso");
