@@ -28,3 +28,8 @@ Route::get('series/{serieId}/temporadas',[
     \App\Http\Controllers\TemporadasController::class,
     'index'
 ]);
+
+Route::post('/series/{id}/editaNome', [
+    SeriesController::class,
+    'etitaNome'
+]);
