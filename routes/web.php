@@ -45,3 +45,25 @@ Route::post('/temporadas/{temporada}/episodios/assistir', [
     EpisodiosController::class,
     'assistir'
 ]);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/entrar',[
+    \App\Http\Controllers\EntrarController::class,
+    'index'
+])->name('entrar');
+
+Route::post('/entrar',[
+    \App\Http\Controllers\EntrarController::class,
+    'entrar'
+]);
+Route::get('/registrar', [
+    \App\Http\Controllers\RegistroController::class,
+    'create'
+]);
+Route::post('/registrar', [
+    \App\Http\Controllers\RegistroController::class,
+    'store'
+]);

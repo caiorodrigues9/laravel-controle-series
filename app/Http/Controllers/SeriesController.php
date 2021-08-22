@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SeriesFormRequest;
-use App\Models\Episodio;
-use App\Models\Temporada;
 use App\Models\Serie;
 use App\Services\CriadorDeSerie;
 use App\Services\RemovedorDeSerie;
@@ -13,6 +11,11 @@ use Illuminate\Http\Request;
 
 class SeriesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index(Request $request)
     {
         $mensagem = $request->session()->get('mensagem');
