@@ -14,17 +14,19 @@ Route::get('/series', [
 Route::get('/series/criar', [
     SeriesController::class,
     'create'
-])->name('form_criar_serie');
+])
+    ->name('form_criar_serie')
+    ->middleware('autenticador');
 
 Route::post('/series/criar', [
     SeriesController::class,
     'store'
-]);
+])->middleware('autenticador');;
 
 Route::delete('/series/remover/{id}', [
     SeriesController::class,
     'destroy'
-]);
+])->middleware('autenticador');;
 
 Route::get('series/{serieId}/temporadas',[
     TemporadasController::class,
@@ -34,7 +36,7 @@ Route::get('series/{serieId}/temporadas',[
 Route::post('/series/{id}/editaNome', [
     SeriesController::class,
     'etitaNome'
-]);
+])->middleware('autenticador');
 
 Route::get('/temporadas/{temporada}/episodios', [
     EpisodiosController::class,
@@ -44,7 +46,7 @@ Route::get('/temporadas/{temporada}/episodios', [
 Route::post('/temporadas/{temporada}/episodios/assistir', [
     EpisodiosController::class,
     'assistir'
-]);
+])->middleware('autenticador');;
 
 Auth::routes();
 
@@ -67,3 +69,8 @@ Route::post('/registrar', [
     \App\Http\Controllers\RegistroController::class,
     'store'
 ]);
+
+Route::get('/sair', function (){
+    \Illuminate\Support\Facades\Auth::logout();
+    return redirect('/entrar');
+});

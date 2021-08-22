@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('cabecalho')
+@section('titulo')
     Registrar-se
 @endsection
 
