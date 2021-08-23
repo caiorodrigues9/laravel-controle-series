@@ -17,7 +17,7 @@ class RegistroController extends Controller
     public function store(Request $request)
     {
         $data = $request->except('_token');
-        $data['password'] = md5($data['password']);
+        $data['password'] = Hash::make($data['password']);
         $user = User::create($data);
 
         Auth::login($user);

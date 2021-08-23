@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SeriesFormRequest;
+use App\Mail\NovaSerie;
 use App\Models\Serie;
+use App\Models\User;
 use App\Services\CriadorDeSerie;
 use App\Services\RemovedorDeSerie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 
 class SeriesController extends Controller
@@ -27,8 +30,32 @@ class SeriesController extends Controller
 
     public function store(SeriesFormRequest $request, CriadorDeSerie $criadorDeSerie)
     {
-        $serie = $criadorDeSerie->criarSerie($request->nome,$request->qtd_temporadas, $request->ep_por_temporadas);
-        $request->session()->flash('mensagem', "Série ID: {$serie->id} Nome: {$serie->nome} e suas temporadas e episodios foram criados com sucesso");
+        $serie = $criadorDeSerie->criarSerie(
+            $request->nome,
+            $request->qtd_temporadas,
+            $request->ep_por_temporadas
+        );
+
+
+        $users = User::all();
+
+        foreach ($users as $user) {
+            $email = new NovaSerie(
+                $request->nome,
+                $request->qtd_temporadas,
+                $request->ep_por_temporadas
+            );
+
+            $email->subject = 'Nova Série Adicionada';
+
+            Mail::to($user)->send($email);
+            sleep(5);
+        }
+
+        $request->session()->flash(
+            'mensagem',
+            "Série ID: {$serie->id} Nome: {$serie->nome} e suas temporadas e episodios foram criados com sucesso"
+        );
 
         return redirect()->route('listar_series');
     }

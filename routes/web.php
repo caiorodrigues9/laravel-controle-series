@@ -74,3 +74,22 @@ Route::get('/sair', function (){
     \Illuminate\Support\Facades\Auth::logout();
     return redirect('/entrar');
 });
+
+Route::get('/visualizando-email',function (){
+   return new \App\Mail\NovaSerie('Arrow',1,1);
+});
+
+Route::get('/enviando-email',function (){
+    $email = new \App\Mail\NovaSerie('Arrow',1,1);
+
+    $user = (object)[
+        'email'=>'caiorodrigues9@gmail.com',
+        'name'=>'Caio Rodrigues'
+    ];
+
+    $email->subject = 'Nova Série Adicionada';
+
+    \Illuminate\Support\Facades\Mail::to($user)->send($email);
+
+    return "Email Enviado";
+});
