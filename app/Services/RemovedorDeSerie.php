@@ -4,6 +4,8 @@
 namespace App\Services;
 
 
+use App\Events\SerieApagada;
+use App\Jobs\ExcluirCapaSerie;
 use App\Models\Episodio;
 use App\Models\Serie;
 use App\Models\Temporada;
@@ -16,12 +18,13 @@ class RemovedorDeSerie
     {
         DB::beginTransaction();
         $serie = Serie::find($serieId);
+        $serieObj = (object) $serie->toArray();
         $nomeSerie = $serie->nome;
         $this->removerTemporadas($serie);
+        /*$evento = new SerieApagada($serieObj);
+        event($evento);*/
+        ExcluirCapaSerie::dispatch($serieObj);
         $serie->delete();
-        if($serie->capa){
-            Storage::delete($serie->capa);
-        }
         DB::commit();
         return $nomeSerie;
     }
